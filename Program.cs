@@ -1,7 +1,9 @@
 using core_api.Infra;
 using core_api.Infra.Repository;
 using core_api.Model.Interface;
+using core_api.service.bi;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IAuditoriaRepository, AuditoriaRepository>();
 builder.Services.AddScoped<IBankRepository, BankRepository>();
+builder.Services.AddScoped<AccountsPayableService>();
+builder.Services.AddScoped<AccountsReceivableService>();
+builder.Services.AddScoped<FinancialCashFlowService>();
+builder.Services.AddScoped<FinancialOverviewService>();
+builder.Services.AddScoped<PaymentMethodsService>();
+builder.Services.AddScoped<RevenueCategoryService>();
+builder.Services.AddScoped<ExpenseCategoryService>();
+builder.Services.AddScoped<BiFilterOptionsService>();
 
 builder.Services.AddDbContext<Context>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -29,6 +39,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader();
         });
 });
+
 
 
 
@@ -55,3 +66,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
